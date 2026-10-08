@@ -1,0 +1,15 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,11:44,"000.jpg","Fried chicken with baked potatoes,carrots and crougette,bread, chocolate cake,financercake,chantilly cream,almonds cake",2421,"Unbalance","Medium quality"
+2014-10-01,21:14,"001.jpg","Ham pizza",490,"Balance","Medium quality"
+2014-10-02,08:25,"002.jpg","Milk with cupcake,maria cookies,cornflakes",772,"Balance","Medium quality"
+2014-10-02,11:38,"003.jpg","Beef with sauce, duchesspotatoes, carrots and brocoli, with bread, roulade cake with marrons cream and vermicelles",1650,"Balance","Medium quality"
+2014-10-02,14:12,,"Kägi Fret",,,
+2014-10-02,18:55,,"Cereal bar",,,
+2014-10-02,21:32,"004.jpg","Potatoes eggs omelett",381,"Unbalance","Good quality"
+2014-10-03,08:24,"005.jpg","Milk with cupcake,maria cookies,cornflakes",772,"Balance","Low quality"
+2014-10-03,11:42,"006.jpg","Pork with rÃ¶sti,carrots and tomato with pesto, white bread and nougat cake",1323,"Unbalance","Medium quality"
+2014-10-03,21:19,"007.jpg","Cous cous with bacon",353,"Balance","Medium quality"
+2014-10-04,08:25,"008.jpg","Milk with cupcake,maria cookies,cornflakes",772,"Balance","Low quality"
+2014-10-04,11:57,"009.jpg","Meat balls with smash potaotes with sauce,carrots and peppers,white bread and roulade cake and chocolate mousse",1125,"Balance","Medium quality"
+2014-10-04,16:35,,"Kägi Fret",,,
+2014-10-04,20:56,"010.jpg","Gnocchis with green pesto",595,"Unbalance","Medium quality"

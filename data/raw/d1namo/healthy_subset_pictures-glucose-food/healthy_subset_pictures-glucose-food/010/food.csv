@@ -1,0 +1,16 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,12:22,"000.jpg","Pasta with bolognes sauce",514,"Unbalance","Good quality"
+2014-10-01,22:52,"001.jpg","Grapes and banana",246,"Unbalance","Good quality"
+2014-10-02,09:42,"002.jpg","Cereall with milk",270,"Balance","Medium quality"
+2014-10-02,12:22,"003.jpg","Rice with carrots and herbs",518,"Unbalance","Good quality"
+2014-10-02,13:13,"004.jpg","Panallet",75,"Unbalance","Medium quality"
+2014-10-02,15:20,,"Cake",,,
+2014-10-02,21:47,"005.jpg","Pizza",1000,"Balance","Medium quality"
+2014-10-03,08:22,"006.jpg","Cereal with milk",250,"Unbalance","Medium quality"
+2014-10-03,12:24,"007.jpg","Potatoes with bacon",316,"Balance","Good quality"
+2014-10-03,16:00,,"Kit-kat bar",,,
+2014-10-03,20:56,"008.jpg","Pizza",1000,"Balance","Medium quality"
+2014-10-04,09:33,"009.jpg","Cereal",182,"Unbalance","Low quality"
+2014-10-04,12:16,"010.jpg","Potatoes with bacon and cabbage",331,"Balance","Good quality"
+2014-10-04,16:30,,"Chocolate bar",,,
+2014-10-05,00:43,"011.jpg","Cereal with milk",250,"Unbalance","Medium quality"

@@ -1,0 +1,27 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,12:20,"000.jpg","Chicken with peppers, onions and potatoes",400,"Unbalance","Good quality"
+2014-10-01,14:50,,"Apple",,,
+2014-10-01,18:45,,"Slide ham",,,
+2014-10-01,19:39,"001.jpg","Salami pizza ",999,"Unbalance","Medium quality"
+2014-10-01,21:14,,"Limoncello",,,
+2014-10-01,22:40,,"Chocolate & Milk",,,
+2014-10-02,08:13,"002.jpg","Chocolate milk with maria cookies",264,"Unbalance","Medium quality"
+2014-10-02,11:00,,"Apple",,,
+2014-10-02,12:20,"003.jpg","Chicken with potatoes, onions and peppers",404,"Unbalance","Good quality"
+2014-10-02,18:26,"004.jpg","Salami pizza, toast with smoke salmon, grapes and mango yogurt",899,"Balance","Medium quality"
+2014-10-02,18:42,"005.jpg","Mango yogurt and grapes",212,"Balance","Medium quality"
+2014-10-02,21:30,,"Yogurt",,,
+2014-10-02,21:35,,"Yogurt + Chorizo",,,
+2014-10-02,22:45,,"Glass of milk",,,
+2014-10-03,08:39,"006.jpg","Chocolate milk with maria cookies",264,"Unbalance","Medium quality"
+2014-10-03,12:35,"007.jpg","Salmon with courgettes and banana",729,"Unbalance","Good quality"
+2014-10-03,15:45,,"Kitkat + 2 mandarins",,,
+2014-10-03,15:56,"008.jpg","Mandarin with kit kat matcha",113,"Unbalance","Medium quality"
+2014-10-03,19:15,"009.jpg","Salmon and surimi with lettuce, tomatoes and carrot",175,"Unbalance","Good quality"
+2014-10-03,21:31,"010.jpg","Strawberries yogurt and toast with chorizo",382,"Unbalance","Medium quality"
+2014-10-03,22:45,,"Glass of milk",,,
+2014-10-04,08:19,"011.jpg","Chocolate milk with maria cookies",251,"Unbalance","Medium quality"
+2014-10-04,12:27,"012.jpg","Beans, eggs and chorizo soup with carrots and banana",933,"Unbalance","Good quality"
+2014-10-04,12:28,"013.jpg","Bean, eggs and chorizo soup with carrots and banana",933,"Unbalance","Good quality"
+2014-10-04,19:47,"014.jpg","Salmon and surimi with lettuce, tomatoes and carrot",175,"Unbalance","Good quality"
+2014-10-04,22:45,,"Glass of milk",,,

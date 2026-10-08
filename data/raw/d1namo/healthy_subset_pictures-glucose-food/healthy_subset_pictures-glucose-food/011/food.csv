@@ -1,0 +1,19 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,12:17,"000.jpg","Ham Sandwich",296,"Unbalance","Good quality"
+2014-10-01,12:57,"001.jpg","Panallet with coffee",75,"Unbalance","Medium quality"
+2014-10-01,15:45,,"Coffee",,,
+2014-10-01,19:45,"002.jpg","Sausage with bread and smash potatoes and grapes",565,"Unbalance","Good quality"
+2014-10-02,09:03,"003.jpg","Coffee with milk bread",238,"Balance","Low quality"
+2014-10-02,12:23,"004.jpg","Sausage with pasta",442,"Unbalance","Good quality"
+2014-10-02,13:05,"005.jpg","Panallet with coffee",75,"Unbalance","Medium quality"
+2014-10-02,19:08,"006.jpg","Bread with fuet, camembert and manchego cheese",1307,"Unbalance","Medium quality"
+2014-10-02,19:30,,"8 squares of chocolate",,,
+2014-10-03,07:54,"007.jpg","Coffee with milk bread",238,"Balance","Low quality"
+2014-10-03,10:00,,"Coffee",,,
+2014-10-03,12:21,"008.jpg","Pasta with tomatoes sauce",475,"Unbalance","Medium quality"
+2014-10-03,19:14,"009.jpg","Tomatoes, corn and avocado salad",286,"Unbalance","Good quality"
+2014-10-04,08:12,"010.jpg","Coffee with milk bread",238,"Balance","Low quality"
+2014-10-04,09:50,,"Coffee",,,
+2014-10-04,12:18,"011.jpg","Green beans with bacon and chocolate yogurt",817,"Unbalance","Medium quality"
+2014-10-04,15:00,,"Coffee",,,
+2014-10-04,19:09,"012.jpg","Tortillas with camembert, machego cheese and cana de lomo ",1391,"Unbalance","Medium quality"

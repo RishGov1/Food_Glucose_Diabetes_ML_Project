@@ -1,0 +1,12 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,12:21,"000.jpg","Soup with crackers",0,"No information","No information"
+2014-10-01,19:00,,"snack",,,
+2014-10-01,19:51,"001.jpg","Eggs omelett with lettuce, tomato and cucumber salad",193,"Unbalance","Good quality"
+2014-10-02,12:24,"002.jpg","Lasagna",448,"Unbalance","Medium quality"
+2014-10-02,12:24,"003.jpg","Lasagna",448,"Unbalance","Medium quality"
+2014-10-02,12:24,"004.jpg","Lasagna",448,"Unbalance","Medium quality"
+2014-10-02,20:22,"005.jpg","Finger fish with lettuce, tomato and cucumber salad",261,"Unbalance","Medium quality"
+2014-10-03,08:50,"006.jpg","crackers ",107,"Unbalance","Low quality"
+2014-10-03,20:04,"007.jpg","Salmon with lettuce,tomato,cucumber salad and mandarins",568,"Unbalance","Good quality"
+2014-10-04,09:03,"008.jpg","Crackers with coffee",107,"Unbalance","Low quality"
+2014-10-04,09:03,"009.jpg","Crackers with coffee",107,"Unbalance","Low quality"

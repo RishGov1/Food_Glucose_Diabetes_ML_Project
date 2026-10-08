@@ -1,0 +1,17 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,12:27,"000.jpg","Choucroute with sausage and pork",308,"Unbalance","Good quality"
+2014-10-01,16:00,,"Small cake",,,
+2014-10-01,18:39,"001.jpg","Coffee yogurt, bread and gruyere cheese and dried meat",554,"Unbalance","Medium quality"
+2014-10-02,08:00,"002.jpg","Orange juice, chocolate and rice waffel",402,"Unbalance","Medium quality"
+2014-10-02,10:10,,"Fruit juice",,,
+2014-10-02,12:18,"003.jpg","Cous cous with pork and green beans",529,"Unbalance","Good quality"
+2014-10-02,16:30,,"Small cake",,,
+2014-10-02,18:44,"004.jpg","Green beans with cous cous",227,"Unbalance","Good quality"
+2014-10-03,10:10,,"Fruit juice",,,
+2014-10-03,12:19,"005.jpg","White radish with chicken and rice",608,"Balance","Good quality"
+2014-10-03,16:45,,"Small cake",,,
+2014-10-03,21:19,"006.jpg","Hamburguer with frites and nuggets and soda",1419,"Unbalance","Low quality"
+2014-10-04,10:10,,"Fruit juice",,,
+2014-10-04,10:10,,"Bread",,,
+2014-10-04,12:27,"007.jpg","Crepe",106,"No information","No information"
+2014-10-04,18:09,"008.jpg","Donner kebab",1000,"Unbalance","Medium quality"

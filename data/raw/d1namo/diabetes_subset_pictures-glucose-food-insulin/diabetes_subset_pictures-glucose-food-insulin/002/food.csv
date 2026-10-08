@@ -1,0 +1,9 @@
+picture,description,calories,balance,quality,datetime
+001.jpg,"Margarita pizza and lettuce,tomatoes and cucumber salad",231,Balance,Medium quality,2014:10:01 19:43:25
+002.jpg,"Potatoes salade, lettuce and cucumber,sausage,ham and boiled egg",1163,Unbalance,Good quality,2014:10:02 12:32:47
+003.jpg,"Sausage with lettuce,corn salad and rice",757,Unbalance,Good quality,2014:10:02 19:47:17
+004.jpg,Eggplant with rice and lettuce with tomato,474,Unbalance,Good quality,2014:10:03 12:50:17
+005.jpg,"Lettuce with tomato salad, spaguetti with pesto",619,Unbalance,Good quality,2014:10:03 19:08:00
+006.jpg,"Tomatoes,potatoes, ham and egg and plum pie",699,Unbalance,Medium quality,2014:10:04 11:45:05
+007.jpg,"Salmon and white fish, tomatoes and zuchinni,boiled rice",673,Unbalance,Good quality,2014:10:05 12:38:26
+008.jpg,"Lettuce of tomatoes,boiled potatoeswith ham and dolmades and mayonaise",490,Unbalance,Good quality,2014:10:05 18:55:18

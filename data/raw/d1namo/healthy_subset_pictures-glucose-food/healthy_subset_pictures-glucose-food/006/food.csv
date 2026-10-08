@@ -1,0 +1,22 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,09:19,"000.jpg","Strawberry cereal with milk and banana",363,"Unbalance","Medium quality"
+2014-10-01,12:19,"001.jpg","Pasta with tomatoes sauce and parmesan cheese, tomatoes with mozarella and olive oil and vinegar",1050,"Balance","Good quality"
+2014-10-01,15:00,,"Coffee and cookie",,,
+2014-10-01,20:42,"002.jpg","Mini ham pizza",403,"Balance","Medium quality"
+2014-10-02,07:05,"003.jpg","Strawberry cereal and banana with milk and coffee",363,"Unbalance","Medium quality"
+2014-10-02,09:30,,"Tea (1 sugar)",,,
+2014-10-02,11:40,"004.jpg","Pork with rÃ¶sti,carrots,green beans, tomatoes with pesto, white bread and cup of fruits",809,"Unbalance","Good quality"
+2014-10-02,13:45,,"Tea (1 sugar)",,,
+2014-10-02,18:50,,"Energy drink + sandwich",,,
+2014-10-02,21:00,,"Beer",,,
+2014-10-02,21:44,"005.jpg","Pasta with parmesan cheese",432,"Balance","Good quality"
+2014-10-03,08:06,"006.jpg","Orange juice,chocolate cereal with milk and coffee",363,"Unbalance","Medium quality"
+2014-10-03,11:57,"007.jpg","Meat ball with smash potatoes with sauce and carrots, peas white bread and cup of fruits",938,"Unbalance","Good quality"
+2014-10-03,13:32,,"Tea (1 sugar)",,,
+2014-10-03,15:30,,"Tea",,,
+2014-10-03,19:22,"008.jpg","Spaguetti with meat and onions and mozzarella and tomatoes with oil and vinegar ",1250,"Unbalance","Good quality"
+2014-10-04,08:08,"009.jpg","Strawberry cereal and banana with milk ",363,"Unbalance","Medium quality"
+2014-10-04,09:30,,"Energy drink",,,
+2014-10-04,11:20,,"Tea",,,
+2014-10-04,11:49,"010.jpg","Fried chicken with carrots,green beans,brocoli,baked potatoes with parmesan cheese, dressing and bread, cup of fruits",1275,"Balance","Good quality"
+2014-10-04,18:00,,"2 Beers",,,

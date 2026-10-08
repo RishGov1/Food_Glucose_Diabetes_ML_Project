@@ -2,8 +2,6 @@
 __pycache__/
 *.pyc
 .streamlit/
-data/raw/d1namo/
-data/raw/pima/diabetes.csv
 models/*.joblib
 outputs/*.csv
 outputs/*.json

@@ -1,0 +1,15 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,12:11,"000.jpg","Ricotta and spinach tortellinis and chocolate branche",681,"Balance","Low quality"
+2014-10-01,12:31,"001.jpg","Quiche Lorraine",267,"Unbalance","Medium quality"
+2014-10-01,19:11,"002.jpg","Bread with ham and cheese and tomatoes with olive oil",1368,"Balance","Good quality"
+2014-10-02,09:28,"003.jpg","Croissant with comercial juice ",240,"Unbalance","Low quality"
+2014-10-02,09:29,"004.jpg","Croissant with comercial juice ",240,"Unbalance","Low quality"
+2014-10-02,12:15,lunch,,1 Sandwich jambon-fromage + 1 Sandwich tomate-mozarella
+2014-10-02,13:00,,"Glass of orange juice",,,
+2014-10-02,18:00,,"Chocolate bar",,,
+2014-10-02,20:00,lunch,,Gnocci tomate-jambon-fromage
+2014-10-03,11:30,,"Chocolate bar",,,
+2014-10-03,12:30,lunch,,Gnocci tomate-jambon-fromage
+2014-10-03,17:00,,"Apéro",,,
+2014-10-04,12:13,"005.jpg","Fried chicken with gratin potatoe with cream, carrots,green beans and peas steamed, vanilla dessert and bread",1504,"Unbalance","Good quality"
+2014-10-04,18:40,diner,,Pâtes

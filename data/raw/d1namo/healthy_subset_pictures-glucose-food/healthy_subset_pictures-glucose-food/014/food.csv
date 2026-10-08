@@ -1,0 +1,12 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,12:20,"000.jpg","Pasta with bolognes sauce",355,"Balance","Good quality"
+2014-10-01,18:54,"001.jpg","Breakfast cereal with milk,green juice, toast with nutella and honey and strawberry yogurt",1048,"Balance","Medium quality"
+2014-10-02,12:15,"002.jpg","Pasta with tomatoes sauce",512,"Unbalance","Good quality"
+2014-10-02,18:47,"003.jpg","Chocolate Cereal with milk, bread with nutella and jam, cranberries flan and milk",1279,"Balance","Medium quality"
+2014-10-03,08:26,"004.jpg","Bread and tea",274,"Balance","Medium quality"
+2014-10-03,12:34,"005.jpg","Rice with meatballs",546,"Unbalance","Medium quality"
+2014-10-03,15:45,,"KitKat",,,
+2014-10-03,19:50,"006.jpg","Miso soup, seaweed,croutons,lettuce and bread,tea",803,"Unbalance","Good quality"
+2014-10-04,08:25,"007.jpg","Energy milk and bread",428,"Unbalance","Low quality"
+2014-10-04,12:27,"008.jpg","Noodles",681,"Unbalance","Low quality"
+2014-10-04,19:01,"009.jpg","Mini pizzas and lettuce with croutons",1229,"Balance","Medium quality"

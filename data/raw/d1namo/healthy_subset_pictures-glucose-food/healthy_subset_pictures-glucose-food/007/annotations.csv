@@ -1,0 +1,4 @@
+start_date,start_time,end_date,end_time,type,description
+2014-10-01,09:00,2014-10-01,10:00,activity,"Motorbike"
+2014-10-02,12:00,2014-10-02,12:30,sport,"Running"
+2014-10-03,15:00,2014-10-03,16:00,sport,"Climbing"

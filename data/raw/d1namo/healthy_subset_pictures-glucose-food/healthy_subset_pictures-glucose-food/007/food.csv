@@ -1,0 +1,23 @@
+date,time,picture,description,calories,balance,quality
+2014-10-01,08:06,"000.jpg","Chocolate milk, toast with butter and jam and blueberries",525,"Unbalance","Medium quality"
+2014-10-01,12:09,"001.jpg","Pasta with yellow pepper",565,"Balance","Good quality"
+2014-10-01,13:15,,"Dried apricots",,,
+2014-10-01,18:00,,"Chips",,,
+2014-10-01,19:35,"002.jpg","Meat with spatzli and green olives",805,"Unbalance","Good quality"
+2014-10-01,19:47,"003.jpg","Strawberry yogurt and grapes",240,"Unbalance","Medium quality"
+2014-10-02,06:51,"004.jpg","Milk with chocolate cereal",410,"Balance","Low quality"
+2014-10-02,09:45,,"Grapes",,,
+2014-10-02,13:09,"005.jpg","Spatzli",300,"Unbalance","Medium quality"
+2014-10-02,20:22,"006.jpg","Mini ham pizza",403,"Balance","Medium quality"
+2014-10-03,06:58,"007.jpg","Milk, Bread with nutella",392,"Unbalance","Medium quality"
+2014-10-03,12:10,lunch,,Sandwich + 1 bounty
+2014-10-03,16:50,,"Dried apricots and coca cola",,,
+2014-10-03,21:42,"008.jpg","Rice with red pepper and courgette",265,"Unbalance","Good quality"
+2014-10-04,08:51,"009.jpg","Milk, grapefruit juice and bread with nutella",470,"Balance","Medium quality"
+2014-10-04,13:00,lunch,,Pizza + Coca
+2014-10-04,19:07,"010.jpg","Chicken curry with rice and lettuce",581,"Balance","Good quality"
+2014-10-04,19:32,"011.jpg","Ice cream with cream",805,"Unbalance","Medium quality"
+2014-10-05,10:34,"012.jpg","Milk, grapefruit juice and bread with nutella and Le parfait cream",431,"Unbalance","Medium quality"
+2014-10-05,12:52,"013.jpg","Rice with red pepper and courgette",265,"Unbalance","Good quality"
+2014-10-05,17:00,,"Dried apricots",,,
+2014-10-05,18:48,"014.jpg","Rice with red pepper and courgette and cheese delice",603,"Balance","Medium quality"
