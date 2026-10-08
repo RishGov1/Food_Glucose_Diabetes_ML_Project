@@ -1,0 +1,26 @@
+flowchart TD
+    A[D1NAMO Raw Data] --> B[Glucose CSV]
+    A --> C[Food / Meal CSV]
+    B --> D[Timestamp Parsing]
+    C --> E[Meal Event Clustering]
+    D --> F[Meal-Time Glucose Alignment]
+    E --> F
+    F --> G[0, 15, 40, 45, 60, 120 min readings]
+    G --> H[Postprandial Features]
+    H --> I[Peak / Excursion / AUC / Slopes / Recovery]
+
+    F --> J[Common Features]
+    J --> K[Subject-Aware Cross Validation]
+    K --> L[Logistic Regression]
+    K --> M[Random Forest]
+    L --> N[Best D1NAMO Model]
+    M --> N
+
+    F --> O[2-hour Glucose]
+    O --> P[D1NAMO Glucose-Only Model]
+    P --> Q[PIMA Glucose]
+    Q --> R[PIMA Outcome]
+    P --> S[External Evaluation]
+
+    T[Streamlit Input: Six Glucose Values] --> I
+    T --> P

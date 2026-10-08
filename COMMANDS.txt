@@ -1,0 +1,5 @@
+1) Put D1NAMO under data/raw/d1namo/
+2) Put PIMA CSV at data/raw/pima/diabetes.csv
+3) Install: pip install -r requirements.txt
+4) Run: python run_all.py
+5) Dashboard: streamlit run app.py

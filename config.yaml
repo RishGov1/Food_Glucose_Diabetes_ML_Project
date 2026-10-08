@@ -1,0 +1,14 @@
+project:
+  random_state: 42
+  meal_gap_minutes: 30
+  glucose_tolerance_minutes: 8
+  common_tolerance_minutes: 30
+  target_offsets_minutes: [0, 15, 40, 45, 60, 120]
+
+paths:
+  d1namo_root: "data/raw/d1namo"
+  pima_csv: "data/raw/pima/diabetes.csv"
+  samples_csv: "outputs/d1namo_meal_samples.csv"
+  common_model: "models/d1namo_common_model.joblib"
+  glucose_model: "models/d1namo_glucose_only_model.joblib"
+  glucose_threshold: "models/glucose_threshold.json"
