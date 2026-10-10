@@ -193,3 +193,8 @@ models/
 A stronger research version should use a dataset containing healthy, prediabetic and Type 2 participants with continuous glucose monitoring and standardized meal challenges. A six-point classifier could then be trained directly on the intended input representation without imputation or cross-protocol assumptions.
 
 Additional modalities such as age, BMI, insulin dose, physical activity and heart-rate variability can be incorporated when a common measurement protocol is available.
+
+
+## Updated model input and food database integration
+
+The main D1NAMO classifier uses the six glucose observations (0, 15, 40, 45, 60 and 120 minutes) and derived response features such as peak, AUC, excursions, slopes and recovery. The Indian food spreadsheet is used to calculate serving-adjusted meal nutrition and to contextualize the measured response. The food spreadsheet has no participant diagnosis labels or paired glucose curves, and the D1NAMO label rows do not identify those exact foods. Therefore, the food nutrients are not represented as learned diagnostic predictors; doing so would create unsupported associations. A future genuinely food-aware supervised model requires meal-level records linking actual food identity/portion, time-aligned glucose outcomes and diagnostic labels for the same participants.

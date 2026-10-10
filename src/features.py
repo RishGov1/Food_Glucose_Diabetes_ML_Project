@@ -1,52 +1,59 @@
 import numpy as np
 import pandas as pd
 
+TIMEPOINTS = [0, 15, 40, 45, 60, 120]
+
+# Features used by the D1NAMO post-meal response classifier.
+# Food nutrients are deliberately not included unless they are observed and linked
+# to each labelled D1NAMO meal; the separate Indian food table has no diagnosis labels.
+MODEL_FEATURES = [
+    "g_0", "g_15", "g_40", "g_45", "g_60", "g_120",
+    "peak_glucose", "peak_time_min", "delta_120", "peak_excursion",
+    "auc_0_120", "slope_0_15", "slope_60_120", "recovery_60_120",
+    "pct_peak_rise",
+]
+
 GLUCOSE_ONLY_FEATURES = ["g_120"]
 
-COMMON_FEATURES = [
-    "g_0",
-    "g_120",
-    "delta_120",
-    "food_event_count",
-]
-
-OPTIONAL_MEAL_FEATURE_PREFIXES = [
-    "meal_sugar",
-    "meal_carb",
-    "meal_protein",
-    "meal_fat",
-    "meal_fiber",
-    "meal_calorie",
-    "meal_kcal",
-]
-
-def choose_common_features(df):
-    features = []
-    for c in COMMON_FEATURES:
-        if c in df.columns and df[c].notna().sum() > 0:
-            features.append(c)
-    for c in df.columns:
-        if any(c.startswith(prefix) for prefix in OPTIONAL_MEAL_FEATURE_PREFIXES):
-            if df[c].notna().sum() > 0:
-                features.append(c)
-    return features
 
 def six_point_summary(values):
-    offsets = np.array([0, 15, 40, 45, 60, 120], dtype=float)
+    offsets = np.asarray(TIMEPOINTS, dtype=float)
     x = np.asarray(values, dtype=float)
     if x.shape[0] != 6:
         raise ValueError("Exactly six readings are required: 0, 15, 40, 45, 60, 120 minutes.")
+    if not np.isfinite(x).all():
+        raise ValueError("All six glucose readings must be provided as finite numbers.")
 
-    result = {}
-    result["initial_glucose"] = float(x[0])
-    result["two_hour_glucose"] = float(x[-1])
-    result["peak_glucose"] = float(np.nanmax(x))
-    result["peak_time_min"] = float(offsets[int(np.nanargmax(x))])
-    result["peak_excursion"] = float(np.nanmax(x) - x[0])
-    result["two_hour_excursion"] = float(x[-1] - x[0])
-    result["auc_0_120"] = float(((np.trapezoid if hasattr(np, "trapezoid") else np.trapz)(x, offsets)))
-    result["slope_0_15"] = float((x[1] - x[0]) / 15.0)
-    result["slope_60_120"] = float((x[-1] - x[4]) / 60.0)
-    result["recovery_60_120"] = float(x[4] - x[-1])
-    result["pct_peak_rise"] = float(100 * (np.nanmax(x) - x[0]) / max(x[0], 1e-6))
-    return result
+    peak_idx = int(np.argmax(x))
+    auc_func = np.trapezoid if hasattr(np, "trapezoid") else np.trapz
+    g0, g15, g60, g120 = x[0], x[1], x[4], x[5]
+    return {
+        "initial_glucose": float(g0),
+        "two_hour_glucose": float(g120),
+        "peak_glucose": float(x[peak_idx]),
+        "peak_time_min": float(offsets[peak_idx]),
+        "peak_excursion": float(x[peak_idx] - g0),
+        "two_hour_excursion": float(g120 - g0),
+        "delta_120": float(g120 - g0),
+        "auc_0_120": float(auc_func(x, offsets)),
+        "slope_0_15": float((g15 - g0) / 15.0),
+        "slope_60_120": float((g120 - g60) / 60.0),
+        "recovery_60_120": float(g60 - g120),
+        "pct_peak_rise": float(100.0 * (x[peak_idx] - g0) / max(g0, 1e-6)),
+    }
+
+
+def prediction_frame(values, features=None):
+    """Build the same named feature row used at training time."""
+    x = np.asarray(values, dtype=float)
+    if x.shape[0] != 6 or not np.isfinite(x).all():
+        raise ValueError("Provide six finite glucose values in the order 0, 15, 40, 45, 60, 120 minutes.")
+    row = {f"g_{minute}": float(value) for minute, value in zip(TIMEPOINTS, x)}
+    row.update(six_point_summary(x))
+    use = features or MODEL_FEATURES
+    return pd.DataFrame([{name: row.get(name, np.nan) for name in use}], columns=use)
+
+
+def choose_response_features(df):
+    """Return supported glucose-response features in a stable, known order."""
+    return [name for name in MODEL_FEATURES if name in df.columns]

@@ -4,6 +4,8 @@
 
 Build a machine-learning system that analyzes food intake and post-meal glucose behavior and estimates whether a person belongs to a diabetes-positive or diabetes-negative class.
 
+The updated main classifier uses all six glucose readings and derived response features. The Indian food spreadsheet is used to calculate meal composition and contextualize the observed response. Because D1NAMO's labels are not linked to the foods in the separate Indian food spreadsheet, those nutrition values are not falsely treated as supervised diagnostic features.
+
 The intended user workflow is:
 
 1. Enter the glucose measurements immediately after a meal, 15 min, 40 min, 45 min, 1 h and 2 h after the meal.
@@ -185,4 +187,10 @@ This project uses `StratifiedGroupKFold` with participant ID as the group, so a 
 ## Medical disclaimer
 
 This is an academic ML project, not a medical diagnostic device. The model output is a statistical estimate and must not be used as a diagnosis or as a substitute for clinical testing.
-"# Food_Glucose_Diabetes_ML_Project" 
+
+
+## Indian food database integration
+
+The project includes `data/food/indian_food.xlsx`. The Streamlit app lets users select multiple food items and serving quantities, then estimates meal energy, carbohydrates, free sugars, protein, fat, fibre, and listed digestion-time ranges.
+
+Important: this nutrition spreadsheet does not contain measured glucose curves for each food. It is therefore used for food/nutrition reporting, not as a learned food-specific glucose predictor. The currently trained classifier still uses only the 2-hour glucose value. The app compares the 1-hour and 2-hour readings with a general <180 mg/dL post-meal management reference sometimes used for adults with diabetes; this is not a diagnostic threshold. Do not use this app to diagnose diabetes.
