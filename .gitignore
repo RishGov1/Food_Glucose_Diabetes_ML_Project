@@ -6,3 +6,12 @@ models/*.joblib
 outputs/*.csv
 outputs/*.json
 outputs/figures/*.png
+data/local/
+models/*.npz
+models/*.xml
+models/*.bin
+outputs/*.log
+.pytest_cache/
+outputs/opencl_cache/
+.test_native_tmp/
+test_runs/

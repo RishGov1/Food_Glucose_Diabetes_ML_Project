@@ -75,7 +75,7 @@ def cv_score(model, X, y, groups):
 
 
 def train_one_feature_set(name, features, df):
-    work = df.dropna(subset=["label", "subject_id"]).copy()
+    work = df.dropna(subset=["label", "subject_id"]).dropna(subset=features, how="all").copy()
     y = work["label"].astype(int)
     groups = work["subject_id"].astype(str)
     X = work[features].apply(pd.to_numeric, errors="coerce")
@@ -96,6 +96,8 @@ def train_one_feature_set(name, features, df):
         "features": features,
         "selected_model": best_name,
         "cv_metrics": results[best_name],
+        "all_candidates": results,
+        "excluded_no_observed_feature": int(len(df) - len(work)),
         "n_rows": int(len(work)),
         "n_subjects": int(groups.nunique()),
         "target_note": "D1NAMO cohort label (healthy vs Type 1 diabetes), not a clinical diagnosis from one meal.",

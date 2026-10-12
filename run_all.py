@@ -14,3 +14,4 @@ if __name__ == "__main__":
     run("src.build_d1namo_samples")
     run("src.train_models")
     run("src.evaluate_pima")
+    run("src.train_twin")

@@ -46,6 +46,8 @@ if __name__ == "__main__":
     df = normalize_pima(pd.read_csv(pima_path))
     model = joblib.load(model_path)
 
+    # Zero is a missing-data sentinel, not a physiological glucose reading.
+    df = df.loc[pd.to_numeric(df["Glucose"], errors="coerce") > 0].copy()
     X = df[["Glucose"]].rename(columns={"Glucose": "g_120"})
     y = df["Outcome"].astype(int)
 

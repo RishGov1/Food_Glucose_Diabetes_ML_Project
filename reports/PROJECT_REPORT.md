@@ -1,5 +1,7 @@
 # ML-Based Food Intake and Postprandial Glucose Analysis for Diabetes Risk Estimation
 
+> Historical report. The current trained forecast, personal-learning workflow, measured results and limitations are documented in [TRAINING_RUN.md](TRAINING_RUN.md) and [README.md](../README.md). Claims below do not describe the current deployment.
+
 ## 1. Abstract
 
 This project develops a machine-learning framework for analyzing food intake and post-meal glucose behavior to estimate diabetes-related risk. The D1NAMO dataset is used as the primary training source because it contains glucose measurements, food annotations and subjects with both healthy and Type 1 diabetes labels. The PIMA Indians Diabetes dataset is used as an external evaluation source.

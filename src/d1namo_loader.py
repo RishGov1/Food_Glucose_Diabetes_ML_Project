@@ -19,6 +19,10 @@ def infer_subject_id(path):
 
 def infer_label(path):
     low = str(path).lower()
+    # This participant is explicitly marked diabetes in the healthy archive.
+    # Its subtype is unknown, so exclude it from healthy-vs-Type-1 training.
+    if Path(path).name.lower().endswith("_diabetes"):
+        return None
     if "healthy" in low:
         return 0
     if "diabetes" in low or "diabetic" in low:
@@ -33,7 +37,10 @@ def parse_datetime(df):
             datetime_col = cols[c]
             break
     if datetime_col is not None:
-        return pd.to_datetime(df[datetime_col], errors="coerce", format="mixed")
+        cleaned = df[datetime_col].astype(str).str.replace(
+            r"^(\d{4}):(\d{2}):(\d{2})", r"\1-\2-\3", regex=True
+        )
+        return pd.to_datetime(cleaned, errors="coerce", format="mixed")
 
     date_col = None
     time_col = None
@@ -128,7 +135,7 @@ def cluster_meals(food_df, gap_minutes=30):
     for _, idx in times.groupby(groups).groups.items():
         t = times.loc[idx]
         rows.append({
-            "meal_time": t.median(),
+                "meal_time": t.min(),
             "food_event_count": int(len(t)),
         })
     return pd.DataFrame(rows).sort_values("meal_time").reset_index(drop=True)
@@ -158,8 +165,11 @@ def nearest_value(glucose_df, target_time, tolerance_minutes):
 def extract_response(glucose_df, meal_time, offsets, tolerance_minutes=8):
     vals = {}
     for m in offsets:
+        available = glucose_df
+        if m <= 45:
+            available = glucose_df[glucose_df.timestamp <= meal_time + pd.Timedelta(minutes=45)]
         vals[m] = nearest_value(
-            glucose_df,
+            available,
             meal_time + pd.Timedelta(minutes=int(m)),
             tolerance_minutes,
         )
@@ -257,7 +267,7 @@ def load_d1namo(root, meal_gap_minutes=30, tolerance_minutes=8):
         food = pd.concat(food_frames, ignore_index=True).sort_values("timestamp")
         meals = cluster_meals(food, meal_gap_minutes)
 
-        subject_id = infer_subject_id(subject_dir)
+        subject_id = f"{'t1d' if label else 'healthy'}_{infer_subject_id(subject_dir)}"
 
         for _, meal in meals.iterrows():
             row = {
