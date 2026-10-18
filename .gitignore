@@ -15,3 +15,8 @@ outputs/*.log
 outputs/opencl_cache/
 .test_native_tmp/
 test_runs/
+reports/test_tmp/
+reports/*.log
+reports/synthetic_test_predictions.csv
+data/processed/synthetic_meals.csv.gz
+data/sources/*.xlsx

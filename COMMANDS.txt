@@ -1,7 +1,0 @@
-1) Put D1NAMO under data/raw/d1namo/
-2) Put PIMA CSV at data/raw/pima/diabetes.csv
-3) Install: .venv\Scripts\python.exe -m pip install -r requirements.txt
-4) Train: .venv\Scripts\python.exe -u run_all.py
-5) Dashboard: .\start_app.ps1
-6) Open: http://127.0.0.1:8501
-7) Test: .venv\Scripts\python.exe -m pytest tests -q

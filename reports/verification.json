@@ -1,0 +1,29 @@
+{
+  "verified_at": "2026-10-18T20:02:03.473192+05:30",
+  "tests_passed": 33,
+  "test_failures": 0,
+  "browser": {
+    "desktop": "1440x1100",
+    "mobile": "390x844",
+    "workflow": "demo estimate, food search, isolated profile, direct meal log, incremental 15/30/45/60/120-minute readings, learning check, model report",
+    "browser_errors": [],
+    "mobile_horizontal_overflow": false,
+    "database": "isolated temporary SQLite; deleted after run",
+    "result": "passed"
+  },
+  "source_files_preserved": 446,
+  "dataset_artifact_hash_matches": true,
+  "app_health_status": 200,
+  "url": "http://127.0.0.1:8501",
+  "model": "Neural network (64, 32)",
+  "synthetic_test_mae": 9.075461387360912,
+  "clinical_validation": false,
+  "meal_reading_minutes": [
+    15,
+    30,
+    45,
+    60,
+    120
+  ],
+  "incremental_saving": true
+}

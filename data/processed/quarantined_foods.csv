@@ -1,0 +1,8 @@
+origin,food_code,name,issues
+INDB 2024,G516,Chilli powder,implausible energy or sugar exceeds carbohydrate
+INDB 2024,G518,"Cinnamon, ground",implausible energy or sugar exceeds carbohydrate
+INDB 2024,G526,"Oregano, dried, ground",implausible energy or sugar exceeds carbohydrate
+INDB 2024,G545,Paprika,implausible energy or sugar exceeds carbohydrate
+INDB 2024,I502,"Sugar, white",nutrient exceeds 100 g per 100 g
+INDB 2024,I503,"Sugar, brown",nutrient exceeds 100 g per 100 g
+INDB 2024,I504,"Sugar, icing",nutrient exceeds 100 g per 100 g

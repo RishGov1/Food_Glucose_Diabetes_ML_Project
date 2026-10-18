@@ -1,0 +1,112 @@
+{
+  "selected_model": "Neural network (64, 32)",
+  "selection": "lowest joint 60/120-minute MAE on food-and-person-disjoint validation",
+  "version": "meal-prior-v1-95ad15c785fc",
+  "data_sha256": "b970f4da52546db1f7da3e2ac61503f262745a2af938cc5981277ea253cc8010",
+  "sklearn_version": "1.9.1",
+  "features": [
+    "baseline",
+    "carb_g",
+    "protein_g",
+    "fat_g",
+    "fibre_g",
+    "sugar_g",
+    "activity_min",
+    "sleep_hours"
+  ],
+  "targets": [
+    "g60",
+    "g120"
+  ],
+  "validation_leaderboard": [
+    {
+      "model": "Neural network (64, 32)",
+      "mae": 8.940434688621993,
+      "mae_60": 8.460740368748288,
+      "mae_120": 9.420129008495719,
+      "rmse": 11.595894248917592,
+      "r2": 0.9400794952483078,
+      "training_seconds": 3.55
+    },
+    {
+      "model": "Histogram boosting (15 leaves)",
+      "mae": 8.975722276013808,
+      "mae_60": 8.522449632314157,
+      "mae_120": 9.428994919713462,
+      "rmse": 11.649828462629676,
+      "r2": 0.939579606892618,
+      "training_seconds": 0.59
+    },
+    {
+      "model": "Histogram boosting (31 leaves)",
+      "mae": 8.988772969688952,
+      "mae_60": 8.528753713905282,
+      "mae_120": 9.448792225472623,
+      "rmse": 11.679473212634065,
+      "r2": 0.9392628910764875,
+      "training_seconds": 1.03
+    },
+    {
+      "model": "Extra Trees",
+      "mae": 9.046350784284073,
+      "mae_60": 8.600890543177657,
+      "mae_120": 9.491811025390442,
+      "rmse": 11.771630112816794,
+      "r2": 0.9383059278982632,
+      "training_seconds": 2.38
+    },
+    {
+      "model": "Random Forest",
+      "mae": 9.078385843478143,
+      "mae_60": 8.634875554337368,
+      "mae_120": 9.521896132618952,
+      "rmse": 11.81780568409088,
+      "r2": 0.9378260033156429,
+      "training_seconds": 5.81
+    },
+    {
+      "model": "Ridge regression",
+      "mae": 9.163794047651512,
+      "mae_60": 8.802027773057807,
+      "mae_120": 9.52556032224519,
+      "rmse": 11.927240240885101,
+      "r2": 0.9368092017434606,
+      "training_seconds": 0.02
+    },
+    {
+      "model": "Persistence baseline",
+      "mae": 20.592821155999964,
+      "mae_60": 24.050275794,
+      "mae_120": 17.135366518,
+      "rmse": 28.86277449097519,
+      "r2": 0.6500675511036936,
+      "training_seconds": 0.04
+    }
+  ],
+  "test": {
+    "mae": 9.075461387360912,
+    "mae_60": 8.59148949761036,
+    "mae_120": 9.559433277111495,
+    "rmse": 11.812590683123016,
+    "r2": 0.9404362941758755
+  },
+  "test_persistence": {
+    "mae": 22.40389696400002,
+    "mae_60": 26.179160463,
+    "mae_120": 18.628633464999997,
+    "rmse": 31.596884300458022,
+    "r2": 0.6010888352508714
+  },
+  "calibration_90_absolute_residual": [
+    17.713198620936083,
+    19.056153305028218
+  ],
+  "test_simulated_interval_coverage": [
+    0.9001,
+    0.8887
+  ],
+  "clinical_accuracy": "NOT ESTABLISHED; all outcomes in this experiment are simulated.",
+  "interval_note": "90% marginal simulator calibration only. App uses at least +/-35 mg/dL as an unvalidated uncertainty floor.",
+  "split_integrity": "No exact canonical food-family or virtual-person overlap between partitions.",
+  "semantic_overlap_limit": "Related dishes with different names can still overlap; this is not cuisine-disjoint validation."
+}

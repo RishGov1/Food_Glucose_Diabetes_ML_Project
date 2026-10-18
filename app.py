@@ -1,3 +1,4 @@
-"""Streamlit entry point; run with streamlit run app.py."""
-import runpy
-runpy.run_module("src.dashboard", run_name="__main__")
+"""Run locally: python -m streamlit run app.py"""
+from twin.ui import main
+
+main()

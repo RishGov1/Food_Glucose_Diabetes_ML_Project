@@ -1,111 +1,101 @@
-# GlucoMeal: a personal glucose twin prototype
+# Glucose Twin
 
-Local Streamlit app trained on the supplied D1NAMO meal/glucose data. It forecasts 60- and 120-minute glucose from readings at 0, 15, **40**, and 45 minutes; reviews foods and portions; and updates a separate personal correction when actual outcomes are saved.
+A local Streamlit app for exploring Indian meals, recording glucose responses and building a personal food history. It has a trained meal-response model, a separate observed-glucose benchmark, and a measured-outcome learning loop.
 
-**Research use only.** This is not a clinically validated digital twin, diabetes diagnostic tool, or insulin/dosing system. The selected model did not outperform the simple last-reading baseline on unseen participants. Its two-hour predictions are particularly uncertain.
+**This is a research prototype.** The initial meal model is trained on explicitly simulated responses. It cannot establish that a food is medically safe, diagnose diabetes, or guide insulin or medication. The real glucose benchmark is small and does not demonstrate reliable two-hour prediction. All results and limitations are available inside **Model & data** and in [MODEL_REPORT.md](MODEL_REPORT.md).
 
-## Start
+## Open the app
 
-From this directory in PowerShell:
+From PowerShell in this project:
 
 ```powershell
 .\start_app.ps1
 ```
 
-Open http://127.0.0.1:8501. The server binds only to localhost and disables Streamlit usage statistics. Dependencies and trained artifacts are already installed/generated on this laptop.
+Open **http://127.0.0.1:8501**. The app binds to this computer only. Stop it with Ctrl+C when launched in your terminal.
 
-For a fresh environment:
+The current workspace already includes the prepared dataset and trained models. It does not need to retrain when the app opens.
+
+## What you can do
+
+1. **Meal check:** enter a premeal glucose reading in mg/dL or mmol/L, select foods and weighed portions, and compare illustrative 60- and 120-minute estimates. Nutrition and source information stay visible.
+2. **My food lists:** search foods and filter personal assessments. “Likely suitable” is a provisional allowed list; “Review portion” and “Limit / discuss” are review lists. A cold-start estimate remains unconfirmed. A food is never permanently banned.
+3. **Log a meal:** select one or several foods you ate, enter their weights, your premeal reading and the meal start date/time, and save. You are taken directly to the journal; checking a prediction first is not required.
+4. **Meal journal:** select the saved meal and add glucose at **15, 30, 45, 60 minutes (1 hour), and 120 minutes (2 hours)**. Save one reading at a time or several together. Leave unavailable readings blank and return later. Saved readings are protected from overwriting. A meal-specific chart and the history export include all entered timepoints and actual elapsed times.
+5. **Add a food:** enter a label or recipe calculation per 100 g. Custom foods are private to the selected local profile. New food outcomes participate in the same measured-only learning loop.
+6. **Model & data:** inspect the model comparison, separate observed benchmark, provenance, bias limitations and full report.
+
+Start with the example profile to explore. Create a personal profile before recording your own meals. Default readings are examples until you replace them. Use your clinician's targets in the sidebar. Allergy and care notes are reminders; the app does not automatically check them.
+
+The 15/30/45-minute readings are stored and plotted; the current personal model learns the 60/120-minute targets after a two-hour outcome is available. For learning, the two-hour measurement must be taken 105–135 minutes after the meal began, and a supplied one-hour measurement must be at 50–70 minutes. Outside-window values stay in history but exclude the meal from training. The app needs at least 12 eligible outcomes and four later validation meals before it activates a personal correction. An update must reduce later-meal error by at least 5% and 1 mg/dL. Each target's recording time is tracked separately so backfilling an earlier reading cannot create prospective validation evidence.
+
+## Data expansion
+
+The original `data/` files are preserved. The full Indian Nutrient Databank was downloaded separately and merged with the original workbook, keeping source labels and a duplicate audit. Generated outputs include:
+
+- `data/processed/foods.csv`: 2,140 distinct normalized foods, including 1,189 recipes and fruit entries eligible for meal scenarios. Other ingredients remain available for composition reference.
+- `data/processed/food_portions.csv`: 10,700 calculated portion rows, not 10,700 different foods.
+- `data/processed/synthetic_meals.csv.gz`: the 100,000 simulated meal scenarios you selected. Every row explicitly says it is synthetic.
+- `data/processed/quarantined_foods.csv`: seven source rows with invalid nutrient values, retained for review.
+- `reports/data_audit.json`: counts, provenance and source hash.
+
+Source: [Indian Nutrient Databank](https://www.anuvaad.org.in/indian-nutrient-databank/) and its [methodology](https://www.anuvaad.org.in/methodology/). The source is nutrition information, not measured Indian patient glucose responses. The expansion does not establish that population bias has been removed.
+
+## Rebuild from the preserved data
+
+For a new environment, Python 3.11 or later is recommended. This build was verified on Python 3.13 on Windows.
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt
-.venv\Scripts\python.exe -u run_all.py
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
 ```
 
-GPU training uses PyOpenCL with the installed Intel graphics driver. NPU inference uses OpenVINO and the Intel AI Boost driver. No PyTorch/CUDA installation is required. Training fails explicitly if a GPU is unavailable instead of claiming CPU work was GPU training.
-
-## Models trained on 12 October 2026
-
-| Model | Purpose | Device |
-|---|---|---|
-| Extra Trees residual regressor, 250 trees | Selected population forecast; predicts change from the 45-minute reading | CPU |
-| Ridge residual regressor | Forecast candidate | CPU |
-| Random forest residual regressor, 250 trees | Forecast candidate | CPU |
-| Dense neural network, 4 → 32 → 16 → 2, ReLU, Adam, 350 epochs | Forecast candidate; exported to OpenVINO | Intel Arc 130T GPU training |
-| Persistence | Carry forward the last reading; comparison baseline | CPU |
-| Shrunk personal offset, then validation-gated ridge | Automatically learns from each profile's measured meals | CPU |
-| Logistic regression cohort classifier | Historical six-point healthy-vs-Type-1 research classification | CPU |
-| Random forest glucose-only classifier | D1NAMO-to-PIMA protocol stress test | CPU |
-
-The NPU performed **inference**, not training. CPU, GPU and NPU inference all passed numerical comparison against the saved neural network on six curves. OpenVINO exports are `models/meal_neural.xml` and `.bin`; fitted models are `.joblib` files. `outputs/hardware.json` records actual device names, timings and numerical differences.
-
-## Validation results
-
-There are 387 meal events from 27 usable participants, but only **60 complete measured curves from 7 Type 1 participants** for forecasting. Future outcomes are never imputed as training labels. Nearest measurements use the configured eight-minute tolerance; all early inputs are restricted to measurements available by minute 45. This timing approximation and occasionally reused nearby readings remain limitations.
-
-Five participants (37 meals) form the training/selection set. Grouped CV keeps each participant in one fold. Two other participants (23 meals) form an untouched holdout. Model selection uses only training CV; the holdout is evaluated once. Deployment models are then refitted on all 60 curves.
-
-| Candidate | Training grouped-CV MAE, mg/dL |
-|---|---:|
-| Extra Trees | 23.55 |
-| Ridge | 23.67 |
-| Random forest | 23.83 |
-| Neural network | 25.12 |
-| Persistence baseline | 29.51 |
-
-Selected-model holdout MAE: **14.16 mg/dL at 60 minutes**, **52.65 at 120 minutes**, **33.41 overall**. Persistence holdout MAE: **31.19 overall**. There is no demonstrated improvement over baseline on this small holdout. The UI displays this limitation. OOF error references are descriptive error percentiles, not calibrated personal confidence intervals.
-
-The legacy cohort classifier can exploit different measurement protocols and missingness across cohorts; its high internal classification scores are **not evidence of diagnostic accuracy**. PIMA is not meal-forecast validation: it contains OGTT glucose and a different population. Its glucose-only cross-dataset ROC-AUC was 0.7271 on 763 nonzero-glucose rows.
-
-Data fixes include cohort-qualified participant IDs, parsing colon-separated food dates, aligning meals to their first event, excluding the ambiguous `012_diabetes` participant from the healthy class, ignoring entirely missing training rows, and treating zero PIMA glucose as missing. Source files were preserved.
-
-## Try the frontend
-
-Keep **Demo mode on**, choose a sample and press **Load test example**. This selects `Boiled rice (Uble chawal)` at one listed serving. Press **Forecast next readings**, then record the sample outcomes and tick the confirmation before **Save outcome & update my twin**.
-
-All numbers below are synthetic test values in mg/dL, not medical targets.
-
-| Example | 0 min | 15 min | 40 min | 45 min | Measured 60 min | Measured 120 min |
-|---|---:|---:|---:|---:|---:|---:|
-| Gentle rise | 105 | 115 | 130 | 128 | 125 | 110 |
-| Larger rise | 130 | 160 | 205 | 215 | 225 | 195 |
-| Slower recovery | 115 | 140 | 175 | 185 | 205 | 190 |
-
-Before personal learning, expected forecasts for these examples are approximately **136.7/114.1**, **219.9/185.8**, and **187.9/155.1** (60/120 minutes). Subsequent predictions change as outcomes are saved. Use a different meal date/time for each distinct test meal; resaving the same time is intentionally deduplicated.
-
-Expand **Compare the GPU-trained neural network**, select **NPU**, and press **Run neural comparison** to exercise the NPU from the frontend. That is a separately evaluated comparison model; it does not replace the main Extra Trees prediction.
-
-## How personal learning works
-
-Only explicitly saved measured outcomes become labels. Predictions are frozen before outcomes are entered; changing the inputs invalidates that forecast. Observations are stored in the append-only SQLite database `data/local/meals.sqlite3`, with model version, profile, foods, portions, measured values and original predictions.
-
-The first measured meal updates a regularized personal offset. From eight meals, a ridge model uses early glucose and carbohydrate, sugar, fibre, protein and fat estimates. It is trained on earlier meals and checked on the latest quarter (at least two meals); it replaces the simple offset only after improving validation MAE by at least 5%. Personal corrections are capped at ±40 mg/dL. These controls do not establish clinical safety or prove improvement for an individual.
-
-The personal model is reconstructed deterministically from saved observations, so it survives restarts and cannot become stale after a save. Demo and real histories are separate. Profiles are local labels, not authenticated accounts. Retraining the population model creates a new version; old history remains available but does not calibrate the new model using predictions from an old version. Back up `data/local/` and `models/` together; the database contains personal data and is not encrypted by the app.
-
-## Foods to review
-
-The spreadsheet has 1,137 entries, not paired food-specific glucose outcomes. The initial population model therefore does not claim to have learned effects of these Indian foods. Food-aware personal modeling starts only with the user's paired observations.
-
-Nutrition flags per listed serving use transparent project heuristics: free sugars ≥10 g, carbohydrate ≥45 g, or carbohydrate ≥25 g with fibre <3 g. Serving units are shown because some spreadsheet entries represent large portions. These are not clinical cutoffs or universal bad-food labels. A separate personal list shows foods present in meals with measured outcomes above the chosen reference, without claiming ingredient causation.
-
-## Tests and artifacts
+Recreate the prepared data, compare and fit models, evaluate the observed data, and refresh the report:
 
 ```powershell
-.venv\Scripts\python.exe -m pytest tests -q
+.\.venv\Scripts\python.exe scripts\prepare_data.py --rows 100000
+.\.venv\Scripts\python.exe scripts\train_models.py
+.\.venv\Scripts\python.exe scripts\evaluate_observed.py
+.\.venv\Scripts\python.exe scripts\write_report.py
 ```
 
-Tests cover GPU/CPU numerical agreement for backpropagation, timestamp parsing, leakage prevention, invalid inputs, duplicate protection, profile/version isolation, persistent personal updates, stale form inputs, food search, and the Streamlit NPU button. On Windows with mixed sandbox/user permissions, use a fresh `--basetemp` directory.
+The preparation script downloads the public INDB workbook only if the cached source is absent. Existing D1NAMO data must be present under `data/raw/d1namo/`; it is not redownloaded. Normal app use works offline. CPU training is sufficient for these models; no GPU or NPU is required.
 
-- `outputs/twin_metrics.json`: CV/holdout metrics and split participant IDs.
-- `outputs/hardware.json`: actual hardware inference verification.
-- `outputs/response_model_metrics.json`, `outputs/glucose_model_metrics.json`, `outputs/pima_external_metrics.json`: cohort/stress-test results.
-- `reports/TRAINING_RUN.md`: concise run report.
+Do not rerun preparation while using the app. Rebuilding the base model changes its version; older personal outcomes remain in the journal but do not train a correction against a different base version. Keep a copy of previous model artifacts if maintaining a longitudinal study. Use only trusted local joblib model files.
 
-## References
+## Verification
 
-- [D1NAMO dataset](https://zenodo.org/records/5651217)
-- [ADA: carbohydrates and glucose](https://diabetes.org/food-nutrition/understanding-carbs/get-to-know-carbs)
-- [ADA: glucose monitoring and individualized targets](https://diabetes.org/living-with-diabetes/treatment-care/checking-your-blood-sugar)
-- [OpenVINO inference devices](https://docs.openvino.ai/2024/about-openvino/compatibility-and-support/supported-devices.html)
-- [PyOpenCL runtime](https://documen.tician.de/pyopencl/runtime_program.html)
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests -q -p no:cacheprovider --basetemp=reports\test_tmp
+```
+
+Tests cover data preservation, source/split integrity, units, out-of-range abstention, profile isolation, timing and duplicate protection, measured-only learning, chronological validation, stale results and Streamlit workflows. Browser screenshots and checks are in `reports/`. Optional browser verification uses `requirements-dev.txt` and a locally installed Chrome browser:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe scripts\browser_check.py
+```
+
+## Project layout and storage
+
+```text
+app.py                         Streamlit entry point
+twin/ui.py                     Six app pages and local-profile controls
+twin/service.py                Nutrition, prediction, evidence and safety rules
+twin/learning.py               Validation-gated personal residual models
+twin/storage.py                SQLite persistence and input constraints
+twin/estimators.py             Reproducible base-estimator definitions
+scripts/prepare_data.py        Source audit, food merge, portion and response simulation
+scripts/train_models.py        Seven-candidate model comparison and calibration
+scripts/evaluate_observed.py   Separate participant-held-out D1NAMO benchmark
+scripts/write_report.py        Report generated from actual experiment results
+models/                        Trained models used by the app
+data/local/twin_v2.sqlite3      New local profiles, foods, meals and learning audit
+data/local/meals.sqlite3        Preserved legacy database; not imported or modified
+```
+
+Profiles separate records within the app but are **not authentication**. Anyone with access to the computer can select a profile. The database is unencrypted. Keep the app on localhost and use a trusted personal device. It does not upload patient data, sync to a cloud or use an external AI API. Streamlit usage statistics are disabled. Exported CSV cells are escaped against spreadsheet formula injection.
+
+The previous implementation was moved to `D:\Food_Glucose_Diabetes_ML_Project_legacy_20261018` before rebuilding. The original workbook, raw datasets and legacy meal database remain in this project's `data/` directory. SHA-256 checks for all 446 pre-existing data files are recorded in `reports/original_data_manifest.json` and verified by tests.
+
+Dataset attribution and upstream usage terms remain applicable. This project does not claim ownership of the original INDB, IFCT or D1NAMO data.
