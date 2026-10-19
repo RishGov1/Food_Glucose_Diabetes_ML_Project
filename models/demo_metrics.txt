@@ -1,0 +1,17 @@
+METRICS ON HELD-OUT SYNTHETIC DATA ONLY
+Not evidence of real-world diabetes detection performance.
+
+                   precision    recall  f1-score   support
+
+Synthetic class 0       0.93      0.96      0.95       600
+Synthetic class 1       0.96      0.93      0.94       600
+
+         accuracy                           0.94      1200
+        macro avg       0.95      0.95      0.94      1200
+     weighted avg       0.95      0.94      0.94      1200
+
+ROC AUC (synthetic test split): 0.9862
+
+Confusion matrix:
+[[574  26]
+ [ 40 560]]

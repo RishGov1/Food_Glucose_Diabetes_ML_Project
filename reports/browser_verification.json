@@ -1,9 +1,0 @@
-{
-  "desktop": "1440x1100",
-  "mobile": "390x844",
-  "workflow": "demo estimate, food search, isolated profile, direct meal log, incremental 15/30/45/60/120-minute readings, learning check, model report",
-  "browser_errors": [],
-  "mobile_horizontal_overflow": false,
-  "database": "isolated temporary SQLite; deleted after run",
-  "result": "passed"
-}

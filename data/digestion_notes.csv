@@ -1,0 +1,20 @@
+About the 'estimated_digestion_time' column
+""
+This column gives an approximate estimated digestion time range (in hours) for each food item.
+""
+"Method: estimates are based on general nutrition-science heuristics — food category (beverage, fruit,"
+"grain, legume, fried food, meat, dairy, sweet, etc.) combined with the food's fat, protein, and fibre"
+"content, since higher fat/protein/fibre generally slows gastric emptying and digestion."
+""
+General reference ranges used:
+"  - Liquids/beverages (tea, coffee, juice, water): 15-30 minutes"
+"  - Fruits, raw salads: 30-60 minutes"
+  - Idli/dosa/appam and other light steamed items: 1.5-2 hours
+"  - Rice dishes, roti/chapati, dal/sambar/curries: 1.5-2.5 hours"
+"  - Fried foods (vada, bonda, pakora, parotta): 2.5-3.5 hours"
+  - Sweets with ghee/khoya/nuts: 2.5-3.5 hours
+  - Non-veg (fish/chicken/egg/meat): 2-4.5 hours depending on type
+""
+"IMPORTANT: These are indicative estimates only, NOT clinically measured or lab-verified values."
+"Actual digestion time varies significantly by individual metabolism, portion size, meal combinations,"
+"cooking method, and overall gut health. Use for general reference/educational purposes only."
