@@ -1,76 +1,55 @@
-# Food-Aware Post-Meal Glucose ML Demo
+# Food-Aware Glucose Digital Twin Demo
 
-## Important medical limitation
-This is an **educational prototype only**, not a Type 1 diabetes diagnostic model. It was trained on synthetic generated examples with invented labels, not clinical patient data. The displayed class and score have no validated clinical meaning and must not be used to make medical decisions.
+## Important limitation
+Educational prototype only. Both models are trained on synthetic examples and invented labels, not clinical patient data. The scores are not validated predictions of food effects and must not be used for medical decisions. HbA1c reflects longer-term average glucose and does not directly predict the response to one meal. Type 1 diabetes cannot be diagnosed or ruled out using this application.
 
-Type 1 diabetes diagnosis requires appropriate clinical assessment and validated tests interpreted by a qualified healthcare professional. Six post-meal readings plus meal details cannot reliably diagnose or rule out Type 1 diabetes.
+## Detailed combined output (updated)
+The interface now combines both model outputs into one plain-language report. It includes the food-impact category and score, a descriptive glucose-pattern label instead of showing only class 0/1, a combined agreement/mixed-result explanation, a chart and summary of the entered readings, meal nutrient context (carbohydrates, fibre, fat and protein), digestion-time caveats, and a separate explanation of HbA1c. The chart shows user-entered readings only; the app does not claim to forecast future glucose values.
 
-## What changed in this version
-The model now takes **both glucose readings and selected food features**:
-- Glucose at 0, 15, 30, 45, 60, and 120 minutes
-- Estimated carbohydrates (g) for the selected portion
-- Estimated fibre (g)
-- Estimated fat (g)
-- Estimated protein (g)
-- Estimated digestion time (hours)
+## Inputs
+The app now asks for:
+- Current blood glucose (mg/dL)
+- Most recent HbA1c (%)
+- Selected food and serving count
+- Nutrition estimates for the portion: carbohydrates, fibre, fat and protein
+- Estimated digestion time from the food dataset
+- Six glucose readings for the separate glucose-pattern model
 
-The app reads nutritional values from `data/indian_food.csv` and scales them by the selected number of servings. The food's name is used to look up its nutritional features; the raw name itself is not a separate model feature. Two foods with similar nutrition values may therefore produce similar features.
+The food-impact model returns a synthetic category: lower modeled impact, higher modeled impact, or uncertain. This category is based on an invented synthetic labeling formula, not measured human responses. It must not be interpreted as a clinical judgement that a food is safe or unsafe.
 
-## Included files
-- `app.py`: Streamlit web app with food selection, servings, nutrition estimates, glucose inputs and model output.
-- `train_model.py`: reproducible training script.
-- `data/indian_food.csv`: copy of the supplied Indian food dataset (1,137 records).
-- `data/digestion_notes.csv`: notes sheet from the supplied workbook.
-- `data/synthetic_glucose_demo.csv`: 6,000 synthetic demonstration records, balanced between two invented classes.
-- `models/demo_model.joblib`: pre-trained food-aware model.
-- `models/demo_metrics.txt`: metrics on synthetic data only.
+## Files
+- `app.py`: Streamlit interface with detailed combined interpretation of both model outputs, glucose-reading chart, meal-nutrient context, and HbA1c explanation.
+- `train_model.py`: trains both demonstration models.
+- `data/indian_food.csv`: supplied Indian food dataset.
+- `data/digestion_notes.csv`: workbook notes.
+- `data/synthetic_glucose_demo.csv`: synthetic training data.
+- `models/demo_model.joblib`: glucose-pattern demo classifier.
+- `models/food_impact_model.joblib`: synthetic food-impact category classifier.
+- `models/*metrics.txt`: synthetic-only metrics.
 
-## Setup on Windows
-1. Install Python 3.10 or 3.11 from https://www.python.org/downloads/ . Enable **Add Python to PATH** during installation.
-2. Extract the ZIP.
-3. Open PowerShell or Command Prompt in the extracted project folder.
-4. Create a virtual environment:
+## Run on Windows
+1. Install Python 3.10 or 3.11 and enable Add Python to PATH.
+2. Extract the ZIP and open a terminal in the project folder.
+3. Create and activate a virtual environment:
    ```powershell
    py -3.11 -m venv .venv
-   ```
-5. Activate it in PowerShell:
-   ```powershell
    .\.venv\Scripts\Activate.ps1
    ```
-   Or in Command Prompt:
-   ```bat
-   .venv\Scripts\activate.bat
-   ```
-6. Install packages:
+   In Command Prompt use `.venv\Scripts\activate.bat`.
+4. Install packages:
    ```bash
    python -m pip install --upgrade pip
    pip install -r requirements.txt
    ```
-7. Launch:
+5. Start the app:
    ```bash
    streamlit run app.py
    ```
-8. If the browser does not open, visit `http://localhost:8501`.
+6. Open `http://localhost:8501` if it does not open automatically.
+7. To retrain both synthetic demo models:
+   ```bash
+   python train_model.py
+   ```
 
-## Retrain the model
-With the virtual environment activated:
-```bash
-python train_model.py
-```
-This retrains on the included synthetic labels. It does not make the model clinically valid.
-
-## Bias and data quality
-- The synthetic dataset has 3,000 examples per invented class.
-- Demographic variables such as age, sex, ethnicity, and location are not included.
-- Balanced class counts do not prove that data are unbiased or representative.
-- Synthetic labels/trajectories are invented assumptions and may embed unrealistic relationships.
-- Metrics from this data measure only how well the model reproduces the synthetic labeling process; do not report them as clinical accuracy.
-
-## Food feature limitations
-The supplied food workbook has estimated nutrient and digestion fields. The app scales nutrients linearly by servings and converts digestion-time ranges to their midpoint. These are approximate dataset features, not a model of an individual's digestion or glucose response. Mixed meals, preparation, medications, insulin, activity, stress, illness and measurement devices can affect readings.
-
-## What a valid research version would require
-1. Ethically approved, consented, de-identified glucose time-series and meal records paired with clinically verified diagnoses.
-2. A clearly defined target and inclusion criteria, with relevant meal, portion, medication, device, and participant metadata.
-3. Patient-level train/validation/test separation to prevent leakage between repeated readings from one person.
-4. External validation, calibration, subgroup fairness evaluation, and clinician oversight before any clinical use.
+## Bias and validity
+Synthetic labels are invented. Balanced class counts and omitting demographic variables do not prove fairness or clinical validity. Do not report synthetic metrics as medical accuracy. A research-grade version requires consented, representative real data, clinically defined outcomes, participant-level data splits, external validation, uncertainty calibration, subgroup fairness evaluation and clinical oversight.
