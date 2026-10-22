@@ -1,1 +1,11 @@
-.venv/\n__pycache__/\n*.pyc\n.streamlit/secrets.toml\n
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.streamlit/secrets.toml
+*.egg-info/
+dist/
+build/
+*.log
+reports/*.log
