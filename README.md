@@ -51,6 +51,7 @@ An in-silico **Diabetes Digital Twin** that simulates an individual diabetic pat
 ```
 Food_Glucose_Diabetes_ML_Project/
 ├── app.py                      # Interactive Streamlit Digital Twin Application
+├── train_model.py              # ML training pipeline for real clinical dataset (PLOS ONE)
 ├── twin/                       # Core Digital Twin Python Package
 │   ├── __init__.py
 │   ├── config.py               # Clinical thresholds, target boundaries, physiological bounds
@@ -59,16 +60,34 @@ Food_Glucose_Diabetes_ML_Project/
 │   ├── online_model.py         # Predictive model, kinetic trajectory simulation, and online SGD weight updates
 │   ├── recommender.py          # Food catalog loader and personalized tolerance tiering
 │   └── seed_data.py            # Generates realistic patient history and longitudinal HbA1c trajectory
+├── models/
+│   ├── demo_model.joblib       # OGTT Clearance & Remission Classifier (Real Clinical Data)
+│   ├── demo_metrics.txt        # Clinical performance metrics & confusion matrix
+│   ├── food_impact_model.joblib# Post-Challenge Glycemic Excursion Classifier (Real Clinical Data)
+│   ├── food_impact_metrics.txt # Excursion model validation metrics
+│   └── model_metadata.json     # Machine-readable schema, features, and model provenance
 ├── tests/
 │   ├── test_diabetes_twin.py   # Unit test suite for DB, recommender, evaluator, intolerance & learning
+│   ├── test_train_model.py     # Real-data ML model loading and inference test suite
 │   └── test_app_integration.py # End-to-end integration tests
 ├── data/
+│   ├── journal.pone.0302777.s001.xlsx # Real clinical dataset (400 T2D patients, PLOS ONE 2024)
 │   ├── indian_food.csv         # Comprehensive nutrient and digestion dataset
 │   └── local/
 │       └── diabetes_twin.sqlite3 # Persistent SQLite database
 ├── requirements.txt            # Project dependencies (Streamlit, Plotly, Pandas, Scikit-learn, etc.)
 └── README.md
 ```
+
+---
+
+### 6. 🔬 Real Clinical Machine Learning Models (PLOS ONE journal.pone.0302777)
+- Replaces synthetic educational datasets with models trained on real patient data from **Tripathi et al. (2024), PLOS ONE 19(5): e0302777**:
+  - **Cohort**: 400 Type 2 Diabetes patients who underwent lifestyle modification and were evaluated with a standardized 75g Oral Glucose Tolerance Test (OGTT).
+  - **Model 1 (`demo_model.joblib`)**: Oral Glucose Tolerance Test (OGTT) Clearance & Remission Classifier (ROC AUC: **0.8449**, Accuracy: **76%**). Evaluates the likelihood of clearing the OGTT based on weight loss, HbA1c change, fasting glucose, diabetes duration, and HOMA beta-cell function.
+  - **Model 2 (`food_impact_model.joblib`)**: Post-Challenge Glycemic Excursion Risk Classifier (ROC AUC: **0.6833**). Flags high acute excursion risk ($\ge 140$ mg/dL) following a standardized carbohydrate challenge.
+  - **Retrain Pipeline**: Re-train at any time with `python train_model.py`.
+  - **In-App Simulator**: Live inference simulator integrated directly into Tab 4 of the Streamlit application.
 
 ---
 

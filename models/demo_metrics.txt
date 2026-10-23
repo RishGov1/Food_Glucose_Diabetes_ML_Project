@@ -1,16 +1,18 @@
-SYNTHETIC DATA METRICS ONLY. Not evidence of clinical performance.
+REAL CLINICAL DATA METRICS — PLOS ONE (journal.pone.0302777)
+Model: Oral Glucose Tolerance Test (OGTT) Clearance & Remission Classifier
+Total Cohort: 400 Real T2D Patients (Train: 320, Test: 80)
 
-                   precision    recall  f1-score   support
+                         precision    recall  f1-score   support
 
-Synthetic class 0       0.97      0.97      0.97       798
-Synthetic class 1       0.97      0.97      0.97       802
+ Impaired / Not Cleared       0.74      0.79      0.77        39
+GTT Cleared (Remission)       0.79      0.73      0.76        41
 
-         accuracy                           0.97      1600
-        macro avg       0.97      0.97      0.97      1600
-     weighted avg       0.97      0.97      0.97      1600
+               accuracy                           0.76        80
+              macro avg       0.76      0.76      0.76        80
+           weighted avg       0.76      0.76      0.76        80
 
-ROC AUC: 0.9964
+ROC AUC: 0.8449
 
 Confusion matrix:
-[[777  21]
- [ 25 777]]
+[[31  8]
+ [11 30]]

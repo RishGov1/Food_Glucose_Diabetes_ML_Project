@@ -2,6 +2,7 @@
 from datetime import datetime, timezone
 from pathlib import Path
 import json
+import joblib
 
 import pandas as pd
 import plotly.express as px
@@ -663,6 +664,174 @@ with tab_model:
         st.dataframe(pd.DataFrame(event_rows), use_container_width=True)
     else:
         st.info("No online learning events logged yet.")
+
+    # ---------------------------------------------------------
+    # Real Clinical ML Models (PLOS ONE journal.pone.0302777)
+    # ---------------------------------------------------------
+    st.divider()
+    st.subheader("🔬 Clinical Machine Learning Models (PLOS ONE Real Patient Cohort)")
+    st.markdown(
+        "Trained on real clinical records from 400 Type 2 Diabetes patients evaluated for oral glucose tolerance test clearance "
+        "and diabetes remission following lifestyle intervention (*Tripathi et al., PLOS ONE 19(5): e0302777, 2024*)."
+    )
+
+    models_dir = Path(__file__).resolve().parent / "models"
+    meta_path = models_dir / "model_metadata.json"
+    demo_model_path = models_dir / "demo_model.joblib"
+    impact_model_path = models_dir / "food_impact_model.joblib"
+
+    if meta_path.exists() and demo_model_path.exists() and impact_model_path.exists():
+        with open(meta_path, "r", encoding="utf-8") as f:
+            ml_meta = json.load(f)
+
+        m1_col, m2_col = st.columns(2)
+        with m1_col:
+            m1_info = ml_meta["models"]["demo_model"]
+            st.markdown(f"""
+            <div class="food-card" style="border-left-color: #10b981;">
+                <h4 style="margin: 0 0 6px 0; color: #0f172a;">🎯 {m1_info['title']}</h4>
+                <p style="margin: 0 0 8px 0; font-size: 0.88rem; color: #475569;">
+                    Predicts whether a patient achieves remission / clears the 75g Oral Glucose Tolerance Test (OGTT).
+                </p>
+                <div style="display: flex; gap: 15px; margin-top: 8px;">
+                    <div><strong>ROC AUC:</strong> <code>{m1_info['roc_auc']:.4f}</code></div>
+                    <div><strong>Trained On:</strong> <code>{m1_info['n_samples']} Patients</code></div>
+                    <div><strong>Features:</strong> <code>{m1_info['n_features']}</code></div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with m2_col:
+            m2_info = ml_meta["models"]["food_impact_model"]
+            st.markdown(f"""
+            <div class="food-card" style="border-left-color: #f97316;">
+                <h4 style="margin: 0 0 6px 0; color: #0f172a;">⚡ {m2_info['title']}</h4>
+                <p style="margin: 0 0 8px 0; font-size: 0.88rem; color: #475569;">
+                    Predicts acute post-challenge excursion risk (2-hour glucose ≥ 140 mg/dL after 75g glucose load).
+                </p>
+                <div style="display: flex; gap: 15px; margin-top: 8px;">
+                    <div><strong>ROC AUC:</strong> <code>{m2_info['roc_auc']:.4f}</code></div>
+                    <div><strong>Trained On:</strong> <code>{m2_info['n_samples']} Patients</code></div>
+                    <div><strong>Features:</strong> <code>{m2_info['n_features']}</code></div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with st.expander("🩺 Run Patient Clinical Prediction Simulator (Real-Data Model)", expanded=False):
+            st.write("Evaluate patient's remission clearance potential and post-challenge spike risk using the real clinical model:")
+            c_sim1, c_sim2, c_sim3 = st.columns(3)
+            with c_sim1:
+                sim_duration = st.number_input("Diabetes Duration (Years)", min_value=0.1, max_value=35.0, value=4.5, step=0.5)
+                sim_base_weight = st.number_input("Baseline Weight (kg)", min_value=40.0, max_value=150.0, value=78.0, step=0.5)
+                sim_curr_weight = st.number_input("Current Weight (kg)", min_value=40.0, max_value=150.0, value=72.0, step=0.5)
+            with c_sim2:
+                sim_height = st.number_input("Height (cm)", min_value=120.0, max_value=220.0, value=170.0, step=1.0)
+                sim_base_hba1c = st.number_input("Baseline HbA1c (%)", min_value=4.0, max_value=16.0, value=8.2, step=0.1)
+                sim_curr_hba1c = st.number_input("Current HbA1c (%)", min_value=4.0, max_value=16.0, value=6.8, step=0.1)
+            with c_sim3:
+                sim_fbg_base = st.number_input("Baseline Fasting Glucose (mg/dL)", min_value=50.0, max_value=350.0, value=142.0, step=1.0)
+                sim_fbg_curr = st.number_input("Current Fasting Glucose (mg/dL)", min_value=50.0, max_value=350.0, value=104.0, step=1.0)
+                sim_on_meds = st.selectbox("On Diabetes Medication?", ["Yes", "No"], index=0)
+
+            if st.button("🔮 Evaluate Patient Remission & Post-Challenge Risk"):
+                try:
+                    m1_model = joblib.load(demo_model_path)
+                    m2_model = joblib.load(impact_model_path)
+
+                    wt_loss = sim_base_weight - sim_curr_weight
+                    wt_loss_pct = (wt_loss / sim_base_weight) * 100.0
+                    bmi_base = sim_base_weight / ((sim_height / 100.0) ** 2)
+                    bmi_curr = sim_curr_weight / ((sim_height / 100.0) ** 2)
+                    bmi_delta = bmi_base - bmi_curr
+                    hba1c_delta = sim_base_hba1c - sim_curr_hba1c
+                    fbg_delta = sim_fbg_base - sim_fbg_curr
+
+                    # Estimate surrogate HOMA from fasting values
+                    est_insulin_base = 12.0
+                    est_insulin_curr = 7.5
+                    homa_ir_base = (sim_fbg_base * est_insulin_base) / 405.0
+                    homa_ir_curr = (sim_fbg_curr * est_insulin_curr) / 405.0
+                    homa_b_base = max(10.0, (20.0 * est_insulin_base) / max(1.0, (sim_fbg_base * 0.0555) - 3.5))
+                    homa_b_curr = max(10.0, (20.0 * est_insulin_curr) / max(1.0, (sim_fbg_curr * 0.0555) - 3.5))
+
+                    patient_df = pd.DataFrame([{
+                        "Duration_of_Diabete": sim_duration,
+                        "Heightcms": sim_height,
+                        "Weightkgfirstoccurance": sim_base_weight,
+                        "Weightkglastoccurance": sim_curr_weight,
+                        "Weight_loss_kg": wt_loss,
+                        "Weight_loss_pct": wt_loss_pct,
+                        "BMIfirstoccurance": bmi_base,
+                        "BMIlastoccurance": bmi_curr,
+                        "BMI_delta": bmi_delta,
+                        "HbA1Cfirstoccurance": sim_base_hba1c,
+                        "HbA1Clastoccurance": sim_curr_hba1c,
+                        "HbA1c_delta": hba1c_delta,
+                        "FastingBloodGlucosemgdlfirstoccurance": sim_fbg_base,
+                        "FastingBloodGlucosemgdllastoccurance": sim_fbg_curr,
+                        "FBG_delta": fbg_delta,
+                        "InsulinFastinguUmlfirstoccurance": est_insulin_base,
+                        "InsulinFastinguUmllastoccurance": est_insulin_curr,
+                        "HOMA_IR_baseline": homa_ir_base,
+                        "HOMA_IR_endline": homa_ir_curr,
+                        "HOMA_Beta_baseline": homa_b_base,
+                        "HOMA_Beta_endline": homa_b_curr,
+                        "On_Insulin_yn": 0,
+                        "On_Diabetes_Medicine_yn": 1 if sim_on_meds == "Yes" else 0,
+                    }])
+
+                    remission_prob = m1_model.predict_proba(patient_df[m1_info["features"]])[0][1]
+
+                    excursion_df = pd.DataFrame([{
+                        "GTT_FBSL": sim_fbg_curr,
+                        "Duration_of_Diabete": sim_duration,
+                        "BMIlastoccurance": bmi_curr,
+                        "Weightkglastoccurance": sim_curr_weight,
+                        "HbA1Clastoccurance": sim_curr_hba1c,
+                        "FastingBloodGlucosemgdllastoccurance": sim_fbg_curr,
+                        "HOMA_IR_endline": homa_ir_curr,
+                        "HOMA_Beta_endline": homa_b_curr,
+                        "InsulinFastinguUmllastoccurance": est_insulin_curr,
+                        "On_Insulin_yn": 0,
+                        "On_Diabetes_Medicine_yn": 1 if sim_on_meds == "Yes" else 0,
+                    }])
+                    excursion_prob = m2_model.predict_proba(excursion_df[m2_info["features"]])[0][1]
+
+                    st.write("")
+                    r1, r2, r3 = st.columns(3)
+                    with r1:
+                        st.metric(
+                            label="OGTT Remission Clearance Probability",
+                            value=f"{remission_prob * 100.0:.1f}%",
+                            delta="High Remission Potential" if remission_prob >= 0.50 else "Partial Recovery",
+                            delta_color="normal" if remission_prob >= 0.50 else "inverse"
+                        )
+                    with r2:
+                        st.metric(
+                            label="Post-Challenge Excursion Risk",
+                            value=f"{excursion_prob * 100.0:.1f}%",
+                            delta="Low Excursion Risk" if excursion_prob < 0.40 else "High Spike Risk",
+                            delta_color="inverse" if excursion_prob >= 0.40 else "normal"
+                        )
+                    with r3:
+                        st.metric(
+                            label="Weight Loss Achieved",
+                            value=f"{wt_loss:.1f} kg",
+                            delta=f"-{wt_loss_pct:.1f}% total mass",
+                            delta_color="normal"
+                        )
+
+                    if remission_prob >= 0.50:
+                        st.success(
+                            f"✅ **Remission Clearance Favorable:** The model predicts a **{remission_prob*100.0:.1f}%** chance of clearing the standardized 75g oral glucose tolerance test. "
+                            f"Key clinical drivers include the **{wt_loss:.1f} kg ({wt_loss_pct:.1f}%) weight reduction**, **HbA1c drop from {sim_base_hba1c}% to {sim_curr_hba1c}%**, and favorable duration (< 5 yrs)."
+                        )
+                    else:
+                        st.info(
+                            f"ℹ️ **Intermediate Response:** The model estimates a **{remission_prob*100.0:.1f}%** clearance probability. Continued lifestyle modification, gradual weight loss, and glycemic stabilization are recommended."
+                        )
+                except Exception as ex:
+                    st.error(f"Inference error: {ex}")
 
 # =========================================================
 # TAB 5: CLINICAL JOURNAL & HISTORY

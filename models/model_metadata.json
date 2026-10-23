@@ -1,0 +1,73 @@
+{
+  "dataset": {
+    "file": "journal.pone.0302777.s001.xlsx",
+    "publication": "PLOS ONE 19(5): e0302777",
+    "doi": "10.1371/journal.pone.0302777",
+    "title": "Oral glucose tolerance test clearance in type 2 diabetes patients who underwent remission following lifestyle intervention",
+    "cohort_size": 400
+  },
+  "models": {
+    "demo_model": {
+      "model_file": "demo_model.joblib",
+      "title": "Oral Glucose Tolerance Test (OGTT) Clearance & Remission Classifier",
+      "n_samples": 400,
+      "n_features": 23,
+      "features": [
+        "Duration_of_Diabete",
+        "Heightcms",
+        "Weightkgfirstoccurance",
+        "Weightkglastoccurance",
+        "Weight_loss_kg",
+        "Weight_loss_pct",
+        "BMIfirstoccurance",
+        "BMIlastoccurance",
+        "BMI_delta",
+        "HbA1Cfirstoccurance",
+        "HbA1Clastoccurance",
+        "HbA1c_delta",
+        "FastingBloodGlucosemgdlfirstoccurance",
+        "FastingBloodGlucosemgdllastoccurance",
+        "FBG_delta",
+        "InsulinFastinguUmlfirstoccurance",
+        "InsulinFastinguUmllastoccurance",
+        "HOMA_IR_baseline",
+        "HOMA_IR_endline",
+        "HOMA_Beta_baseline",
+        "HOMA_Beta_endline",
+        "On_Insulin_yn",
+        "On_Diabetes_Medicine_yn"
+      ],
+      "target_names": [
+        "Impaired / Not Cleared",
+        "GTT Cleared (Remission)"
+      ],
+      "roc_auc": 0.8449,
+      "test_support": 80
+    },
+    "food_impact_model": {
+      "model_file": "food_impact_model.joblib",
+      "title": "Post-Challenge Glycemic Excursion & High Impact Classifier",
+      "n_samples": 400,
+      "n_features": 11,
+      "features": [
+        "GTT_FBSL",
+        "Duration_of_Diabete",
+        "BMIlastoccurance",
+        "Weightkglastoccurance",
+        "HbA1Clastoccurance",
+        "FastingBloodGlucosemgdllastoccurance",
+        "HOMA_IR_endline",
+        "HOMA_Beta_endline",
+        "InsulinFastinguUmllastoccurance",
+        "On_Insulin_yn",
+        "On_Diabetes_Medicine_yn"
+      ],
+      "target_names": [
+        "Controlled Impact (<140 mg/dL)",
+        "High Excursion / Spike (>=140 mg/dL)"
+      ],
+      "roc_auc": 0.6833,
+      "test_support": 80
+    }
+  }
+}
